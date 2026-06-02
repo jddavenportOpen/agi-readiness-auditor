@@ -1,0 +1,38 @@
+{
+  "company": "OpenAI",
+  "note": "Bundled public-claim corpus. Each item is a paraphrase or short quote of a PUBLIC statement with its source URL. Used when --no-fetch (offline) mode is selected. Verify quotes against the source before citing externally.",
+  "claims": [
+    {
+      "text": "OpenAI publishes GPT-4 / GPT-4o / o-series system cards documenting capabilities, evaluations, and known limitations including hallucination and jailbreak susceptibility.",
+      "source": "https://openai.com/index/gpt-4o-system-card/"
+    },
+    {
+      "text": "OpenAI's o1 system card reports chain-of-thought reasoning evaluations and notes the model can still produce confident errors; reasoning reliability is evaluated but not guaranteed.",
+      "source": "https://openai.com/index/openai-o1-system-card/"
+    },
+    {
+      "text": "OpenAI's Preparedness Framework tracks Cybersecurity, CBRN, Persuasion, and Model Autonomy as risk categories, each scored Low/Medium/High/Critical with deployment gated above High.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    },
+    {
+      "text": "OpenAI states that for Persuasion the framework was de-emphasized in the 2025 update, handled via usage policies rather than a capability gate.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    },
+    {
+      "text": "OpenAI's Safety Advisory Group (SAG) reviews Preparedness scorecards and can recommend the leadership block deployment; the board retains oversight authority.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    },
+    {
+      "text": "OpenAI ships agentic products (Operator, agent mode) and states it applies oversight, confirmation steps, and constrained action spaces, but publishes limited detail on autonomous-action stop conditions.",
+      "source": "https://openai.com/index/introducing-operator/"
+    },
+    {
+      "text": "On Innovators-level / scientific uplift, OpenAI's CBRN track addresses bio uplift to novices, but there is no standalone public framework for AI-accelerated R&D risk beyond the CBRN category.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    },
+    {
+      "text": "OpenAI's 'Planning for AGI and Beyond' commits in principle to caution and coordination as systems approach transformative capability, but the most concrete stop conditions are tied to Preparedness thresholds rather than the Level 5 'organizations' tier.",
+      "source": "https://openai.com/index/planning-for-agi-and-beyond/"
+    }
+  ]
+}

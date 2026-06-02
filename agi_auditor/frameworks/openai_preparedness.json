@@ -1,0 +1,42 @@
+{
+  "id": "openai-preparedness",
+  "name": "OpenAI Preparedness Framework (Tracked Risk Categories)",
+  "description": "OpenAI's Preparedness Framework tracks frontier-model risk in named categories, each with a Low/Medium/High/Critical scorecard and deployment/development gates. This rubric checks whether a company publicly addresses each tracked category with a stated threshold or mitigation.",
+  "sources": [
+    "https://openai.com/index/updating-our-preparedness-framework/",
+    "https://cdn.openai.com/openai-preparedness-framework-beta.pdf"
+  ],
+  "scale": ["none", "partial", "substantial", "strong"],
+  "criteria": [
+    {
+      "id": "cyber",
+      "name": "Cybersecurity",
+      "bar": "Public position on model uplift to cyber-offensive operations, with a stated capability threshold above which deployment is gated or mitigated.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    },
+    {
+      "id": "cbrn",
+      "name": "CBRN (chem / bio / radiological / nuclear)",
+      "bar": "Public position on biological/chemical uplift, including a stated threshold (e.g. 'meaningful uplift to a novice') above which the model is restricted.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    },
+    {
+      "id": "persuasion",
+      "name": "Persuasion / Influence",
+      "bar": "Public position on model-driven persuasion, manipulation, or influence operations, with a stated mitigation or evaluation.",
+      "source": "https://cdn.openai.com/openai-preparedness-framework-beta.pdf"
+    },
+    {
+      "id": "autonomy",
+      "name": "Model Autonomy / Self-improvement",
+      "bar": "Public position on autonomous capability (self-exfiltration, self-improvement, resource acquisition), with a stated threshold above which development is gated.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    },
+    {
+      "id": "governance",
+      "name": "Governance & Stop Conditions",
+      "bar": "A named internal body (e.g. Safety Advisory Group, board) with authority to block deployment, AND a public commitment to halt/hold if a threshold is crossed.",
+      "source": "https://openai.com/index/updating-our-preparedness-framework/"
+    }
+  ]
+}

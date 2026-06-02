@@ -1,0 +1,42 @@
+{
+  "id": "anthropic-rsp",
+  "name": "Anthropic Responsible Scaling Policy (ASL levels)",
+  "description": "Anthropic's Responsible Scaling Policy defines AI Safety Levels (ASL) modeled on biosafety levels, with Capability Thresholds that trigger Required Safeguards. This rubric checks whether a company's public posture covers each ASL safeguard dimension.",
+  "sources": [
+    "https://www.anthropic.com/news/anthropics-responsible-scaling-policy",
+    "https://www-cdn.anthropic.com/1adf000c8f675958c2ee23805d91aaade1cd4613/responsible-scaling-policy.pdf"
+  ],
+  "scale": ["none", "partial", "substantial", "strong"],
+  "criteria": [
+    {
+      "id": "asl_definitions",
+      "name": "ASL Capability Thresholds",
+      "bar": "Publicly defines capability thresholds (analogous to ASL-2/ASL-3) that, when crossed, trigger stronger safeguards. Bar: named, written thresholds, not vibes.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "id": "deployment_safeguards",
+      "name": "Deployment Safeguards",
+      "bar": "Public commitment to deployment-stage protections (misuse filtering, jailbreak resistance, harm-refusal) tied to capability level.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "id": "security_safeguards",
+      "name": "Security / Weight Protection",
+      "bar": "Public commitment to model-weight security commensurate with capability (preventing theft by non-state / state actors).",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "id": "evals_redteam",
+      "name": "Capability Evaluations & Red-teaming",
+      "bar": "Public commitment to evaluate models for dangerous capabilities (CBRN, cyber, autonomy) BEFORE and DURING scaling, with red-team disclosure.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "id": "pause_commitment",
+      "name": "Pause / Stop Commitment",
+      "bar": "Explicit public commitment to PAUSE scaling or deployment if safeguards can't keep pace with capability — a real stop condition, not aspirational.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    }
+  ]
+}

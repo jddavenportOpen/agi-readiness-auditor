@@ -1,28 +1,145 @@
 # AGI Readiness Auditor
 
-## Goal
-TBD — finish this sentence: "When this project is done, we will have ______."
+**Pressure-test the public AGI-safety story.** A Python CLI that takes a company's
+**public** AI-safety claims — blog posts, safety frameworks, model/system cards,
+public statements — and diffs them against a published readiness framework
+(OpenAI's *5 Levels of AGI*, OpenAI's *Preparedness Framework*, or Anthropic's
+*Responsible Scaling Policy*). It auto-generates a **gap report**: per-criterion,
+where the company's stated posture *meets* the framework's bar vs *falls short* —
+with the evidence quote, a gap assessment, and a confidence score.
 
-## Why
-TBD — what problem does this solve? What's the cost of not doing it?
+The point: the big labs publish AGI-readiness frameworks. This tool holds them
+(and anyone else) to those same published bars, **on the public record, checkably.**
 
-## Status
-active
+> **Scope & honesty.** This audits *public claims*, not internal reality. A high
+> score means the public story is *complete against the chosen framework* — not
+> that the company is safe, and not that it honors its commitments. Every finding
+> cites a source URL so you can verify it yourself. This is a starting point for a
+> conversation, not a verdict.
 
-## Owner
-Clawd
+## What it does
 
-## Domain
-growth
+1. **Encodes real, citable frameworks** as rubrics — each criterion has a `bar`
+   (the specific threshold a company must publicly meet) and a `source` URL.
+2. **Gathers public claims** — from a bundled corpus (offline, deterministic) or
+   by fetching live public URLs you supply (`--url`).
+3. **Maps claims → criteria** with an LLM (skeptical, evidence-bound, cites only
+   provided claims by index — never invents quotes). Falls back to a deterministic
+   keyword analyzer if no LLM key is configured, so it *always* produces a report.
+4. **Renders a markdown gap report** with a summary table, per-criterion evidence,
+   the gaps, a coverage score, and full source links.
 
-## Started
-2026-06-02
+## Frameworks included
 
-## Target
-TBD — date or milestone that marks "done."
+| id | framework | criteria | source |
+|---|---|---|---|
+| `openai-5-levels` | OpenAI 5 Levels of AGI (Chatbots→Reasoners→Agents→Innovators→Organizations) | 5 | [Bloomberg, Jul 2024](https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai) |
+| `openai-preparedness` | OpenAI Preparedness Framework (cyber, CBRN, persuasion, autonomy, governance) | 5 | [OpenAI](https://openai.com/index/updating-our-preparedness-framework/) |
+| `anthropic-rsp` | Anthropic Responsible Scaling Policy (ASL levels) | 5 | [Anthropic](https://www.anthropic.com/news/anthropics-responsible-scaling-policy) |
 
-## Scope (what lives in this project)
-- TBD
+Frameworks are plain JSON in `agi_auditor/frameworks/` — add your own composite rubric by dropping in a file and registering it.
 
-## Out of scope
-- TBD
+## Install
+
+```bash
+git clone https://github.com/JDDavenport/agi-readiness-auditor.git
+cd agi-readiness-auditor
+pip install -r requirements.txt   # only needed for live --url fetching
+```
+
+The core (bundled-corpus + deterministic analysis) needs **only the Python
+standard library**. `requirements.txt` (`requests`, `beautifulsoup4`) is for live
+URL fetching.
+
+## Run
+
+```bash
+# Audit OpenAI against its own 5-levels framework (bundled corpus):
+python -m agi_auditor --company "OpenAI" --framework openai-5-levels
+
+# Anthropic against its RSP, write to a file:
+python -m agi_auditor --company "Anthropic" --framework anthropic-rsp -o report.md
+
+# Cross-audit: Anthropic held to OpenAI's Preparedness framework:
+python -m agi_auditor --company "Anthropic" --framework openai-preparedness
+
+# Audit any company from live public URLs:
+python -m agi_auditor --company "Acme AI" --framework openai-preparedness \
+    --url https://acme.ai/safety --url https://acme.ai/blog/preparedness
+
+# Force the deterministic analyzer (no LLM):
+python -m agi_auditor --company "OpenAI" --framework openai-5-levels --no-llm
+
+python -m agi_auditor --list-frameworks
+python -m agi_auditor --list-corpus
+```
+
+### LLM configuration (optional but recommended)
+
+The claim→criterion mapping uses an LLM via the **Anthropic Messages API shape**.
+Set two env vars (or put them in `~/agent-system/.env`, which the CLI auto-reads):
+
+```bash
+export KIMI_API_KEY=...        # your key — never logged or echoed
+export KIMI_BASE_URL=https://api.kimi.com/coding
+# optional: export AGI_AUDITOR_MODEL=kimi-k2-0905-preview
+```
+
+It POSTs to `{KIMI_BASE_URL}/v1/messages` with `x-api-key` + `anthropic-version: 2023-06-01`.
+Any Anthropic-Messages-compatible endpoint works (swap the base URL/model). **No key
+configured → deterministic fallback**, so the tool runs anywhere.
+
+## Sample report excerpt
+
+From `examples/openai-5-levels.md` (OpenAI vs its own 5 Levels — coverage **53/100**):
+
+> ### 🟠 Level 5 — Organizations — **partial**
+> **Bar:** AI that can do the work of an entire organization. Bar: a public
+> governance position on highly autonomous / economically transformative systems —
+> control, alignment guarantees, or a stated stop/pause condition.
+>
+> **Gap assessment:** The Preparedness Framework gates deployment at 'Critical' risk
+> and the Safety Advisory Group can recommend blocks, but no public claim specifies a
+> governance position, control mechanism, alignment guarantee, or stop/pause condition
+> explicitly tied to AI systems capable of performing the work of an entire
+> organization (Level 5); the 'Planning for AGI and Beyond' commitment to caution
+> remains principled rather than operationalized for this tier.
+
+See [`examples/`](examples/) for full reports:
+- [`openai-5-levels.md`](examples/openai-5-levels.md)
+- [`openai-preparedness.md`](examples/openai-preparedness.md)
+- [`anthropic-rsp.md`](examples/anthropic-rsp.md)
+- [`anthropic-vs-openai-preparedness.md`](examples/anthropic-vs-openai-preparedness.md) — Anthropic held to OpenAI's rubric (26/100 — *not because Anthropic is less safe, but because its public posture is structured around its own RSP categories, not OpenAI's*). This is the honest caveat the tool is built around: **scores are framework-relative.**
+
+## How a rating is decided
+
+Each criterion gets one of: 🔴 `none` · 🟠 `partial` · 🟡 `substantial` · 🟢 `strong`.
+
+- **strong** — the bar is clearly and specifically met by a cited public claim.
+- **substantial** — mostly met but missing specificity (e.g. no named threshold).
+- **partial** — topic acknowledged, but the bar's key element (a stated threshold,
+  stop-condition, or named governing body) is absent.
+- **none** — no public claim addresses the criterion.
+
+The **coverage score** (0–100) is the average credit across criteria. It measures
+*completeness of the public story against the chosen framework* — nothing more.
+
+## Limitations (read these)
+
+- **Public claims only.** It cannot see internal practice, unpublished evals, or
+  whether commitments are actually honored. A complete public story can still mask
+  a weak internal one — and a terse public story can hide strong internal practice.
+- **Framework-relative.** A company scores differently against different rubrics by
+  design. A low cross-audit score is a *mapping* result, not a safety verdict.
+- **Corpus-bound.** With the bundled corpus, results reflect the specific quotes
+  included. For a real audit, feed comprehensive `--url` sources. The bundled
+  corpora are illustrative starting sets, not exhaustive.
+- **LLM judgment.** The mapping is a language-model assessment; confidence scores
+  are the model's, not ground truth. Always read the evidence quotes and verify
+  against the linked sources before citing externally.
+- **Frameworks evolve.** OpenAI's and Anthropic's documents get revised; the
+  encoded bars reflect the cited versions. Check the source URLs for current text.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

@@ -1,0 +1,4 @@
+# Core (bundled corpus + deterministic + LLM via stdlib urllib) needs NO third-party deps.
+# These are only required for live public-URL fetching (--url):
+requests>=2.31
+beautifulsoup4>=4.12

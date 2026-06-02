@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Secrets — never commit
+.env
+*.key
+*_secret*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Local audit output (keep curated examples/ only)
+/out/
+report.md
+*.local.md

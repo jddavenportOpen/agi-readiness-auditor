@@ -1,0 +1,34 @@
+{
+  "company": "Anthropic",
+  "note": "Bundled public-claim corpus. Each item is a paraphrase or short quote of a PUBLIC statement with its source URL. Verify quotes against the source before citing externally.",
+  "claims": [
+    {
+      "text": "Anthropic's Responsible Scaling Policy defines AI Safety Levels (ASL-2, ASL-3, ...) with named Capability Thresholds that trigger Required Safeguards when crossed.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "text": "Anthropic activated ASL-3 deployment and security standards for Claude Opus 4, citing CBRN uplift potential, including misuse filtering and weight-protection controls.",
+      "source": "https://www.anthropic.com/news/activating-asl3-protections"
+    },
+    {
+      "text": "The RSP commits to model-weight security measures commensurate with capability, intended to resist theft by sophisticated non-state and eventually state-level actors at higher ASLs.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "text": "Anthropic commits to running dangerous-capability evaluations (CBRN, cyber, autonomy) before and during scaling, and publishes model cards with red-team and eval results.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "text": "The RSP states Anthropic will pause scaling or restrict deployment if a model crosses a Capability Threshold before the corresponding Required Safeguards are in place.",
+      "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
+    },
+    {
+      "text": "Anthropic publishes Claude model cards documenting conversational behavior, refusal behavior, and known limitations including hallucination and jailbreak resistance testing.",
+      "source": "https://www.anthropic.com/claude/sonnet"
+    },
+    {
+      "text": "Anthropic addresses agentic / autonomous use via computer-use safeguards and the RSP autonomy evaluations, with constrained deployment and oversight guidance for agentic products.",
+      "source": "https://www.anthropic.com/news/developing-computer-use"
+    }
+  ]
+}
