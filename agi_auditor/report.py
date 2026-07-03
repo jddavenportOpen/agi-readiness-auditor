@@ -60,7 +60,10 @@ def render_compare(results: list[dict[str, Any]]) -> str:
     for r in results:
         s = readiness_score(r)
         scores[r["company"]] = s
-        method = "LLM" if r["llm_enabled"] else "deterministic"
+        if r["llm_enabled"]:
+            method = f"LLM ({r.get('llm_model') or 'LLM'})"
+        else:
+            method = "deterministic"
         lines.append(f"| {r['company']} | {s}/100 | {method} |")
     lines.append("")
 
@@ -143,7 +146,11 @@ def render(result: dict[str, Any]) -> str:
         f"**Public-claim coverage score:** {score}/100 "
         f"_(share of framework bars met by public claims)_  "
     )
-    method = "LLM (claim→criterion mapping)" if result["llm_enabled"] else "deterministic keyword fallback"
+    if result["llm_enabled"]:
+        llm_model = result.get("llm_model") or "LLM"
+        method = f"LLM ({llm_model})"
+    else:
+        method = "deterministic keyword fallback"
     lines.append(f"**Analysis method:** {method}  ")
     lines.append(f"**Claims analyzed:** {result['claims_count']}")
     lines.append("")

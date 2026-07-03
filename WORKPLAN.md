@@ -2,7 +2,7 @@
 
 <!-- STATUS-BEGIN -->
 Progress: 1 of 3 milestones complete (33%)
-Last ship: today — M1: 4 new corpora (Google/Microsoft/Meta/xAI), DeepMind FSF framework, --compare mode, 9 tests, 6 example reports, pushed to github.com/JDDavenport/agi-readiness-auditor main
+Last ship: 3m ago — M1 shipped: added Google/Microsoft/Meta/xAI bundled corpora, DeepMind Frontier Safety Framework (deepmind-fsf), --compare side-by-side comparison mode, corpus.canonical_name(), 9 tests passing, 4 new example reports; pushed to github.com/JDDavenport/agi-readiness-auditor main
 <!-- STATUS-END -->
 
 

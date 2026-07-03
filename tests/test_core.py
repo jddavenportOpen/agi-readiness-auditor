@@ -121,6 +121,78 @@ def test_new_corpora_deterministic_full_audit():
         assert 0 <= s <= 100
 
 
+def test_provider_routing():
+    """_resolve_backend routes to the right provider based on model name."""
+    from agi_auditor.analyzer import _resolve_backend
+    import os
+
+    # kimi model name -> kimi backend (only if keys set)
+    saved_kimi_key = os.environ.pop("KIMI_API_KEY", None)
+    saved_kimi_url = os.environ.pop("KIMI_BASE_URL", None)
+    saved_ant_key = os.environ.pop("ANTHROPIC_API_KEY", None)
+    saved_sub1 = os.environ.pop("ANTHROPIC_API_KEY_SUB1", None)
+    try:
+        # No keys: auto returns (None, None)
+        provider, model = _resolve_backend("auto")
+        assert provider is None
+
+        # Set anthropic key: auto prefers anthropic
+        os.environ["ANTHROPIC_API_KEY"] = "sk-ant-test"
+        provider, model = _resolve_backend("auto")
+        assert provider == "anthropic"
+        assert "claude" in model
+
+        # Explicit claude model: anthropic
+        provider, model = _resolve_backend("claude-haiku-4-5-20251001")
+        assert provider == "anthropic"
+        assert model == "claude-haiku-4-5-20251001"
+
+        # Explicit kimi model without kimi keys: (None, None)
+        provider, model = _resolve_backend("kimi-k2-0905-preview")
+        assert provider is None
+
+        # Set kimi keys: kimi model -> kimi backend
+        os.environ["KIMI_API_KEY"] = "kimi-test"
+        os.environ["KIMI_BASE_URL"] = "https://api.kimi.test"
+        provider, model = _resolve_backend("kimi-k2-0905-preview")
+        assert provider == "kimi"
+
+        # With both keys, auto still prefers anthropic
+        provider, model = _resolve_backend(None)
+        assert provider == "anthropic"
+    finally:
+        # Restore env
+        for k in ("ANTHROPIC_API_KEY", "ANTHROPIC_API_KEY_SUB1", "KIMI_API_KEY", "KIMI_BASE_URL"):
+            os.environ.pop(k, None)
+        if saved_kimi_key is not None:
+            os.environ["KIMI_API_KEY"] = saved_kimi_key
+        if saved_kimi_url is not None:
+            os.environ["KIMI_BASE_URL"] = saved_kimi_url
+        if saved_ant_key is not None:
+            os.environ["ANTHROPIC_API_KEY"] = saved_ant_key
+        if saved_sub1 is not None:
+            os.environ["ANTHROPIC_API_KEY_SUB1"] = saved_sub1
+
+
+def test_assess_result_has_llm_model_field():
+    """assess() result always has llm_model key (None when deterministic)."""
+    fw = load_framework("openai-5-levels")
+    claims = corpus.load_bundled("openai")
+    result = analyzer.assess(fw, "OpenAI", claims, use_llm=False)
+    assert "llm_model" in result
+    assert result["llm_model"] is None
+    assert result["llm_enabled"] is False
+
+
+def test_method_field_values():
+    """Per-criterion method is one of the expected strings."""
+    fw = load_framework("openai-5-levels")
+    claims = corpus.load_bundled("openai")
+    result = analyzer.assess(fw, "OpenAI", claims, use_llm=False)
+    for r in result["results"]:
+        assert r["method"] in ("deterministic", "llm:anthropic", "llm:kimi"), r["method"]
+
+
 if __name__ == "__main__":
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for fn in fns:

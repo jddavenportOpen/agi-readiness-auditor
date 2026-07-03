@@ -95,18 +95,38 @@ python -m agi_auditor --list-corpus
 
 ### LLM configuration (optional but recommended)
 
-The claim→criterion mapping uses an LLM via the **Anthropic Messages API shape**.
-Set two env vars (or put them in `~/agent-system/.env`, which the CLI auto-reads):
+The claim→criterion mapping uses an LLM. **Anthropic Claude is the primary backend.**
+Set your API key (or put it in `~/agent-system/.env`, which the CLI auto-reads):
 
 ```bash
-export KIMI_API_KEY=...        # your key — never logged or echoed
+# Anthropic (primary — recommended)
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# Kimi (alternative — same Anthropic Messages shape)
+export KIMI_API_KEY=...
 export KIMI_BASE_URL=https://api.kimi.com/coding
-# optional: export AGI_AUDITOR_MODEL=kimi-k2-0905-preview
 ```
 
-It POSTs to `{KIMI_BASE_URL}/v1/messages` with `x-api-key` + `anthropic-version: 2023-06-01`.
-Any Anthropic-Messages-compatible endpoint works (swap the base URL/model). **No key
-configured → deterministic fallback**, so the tool runs anywhere.
+The CLI auto-discovers the right backend based on which keys are set: Anthropic first,
+Kimi second. **No key configured → deterministic fallback**, so the tool runs anywhere.
+
+Use `--model` to pick a specific model:
+
+```bash
+# Default (Sonnet, best quality)
+python -m agi_auditor --company "OpenAI" --framework openai-5-levels
+
+# Faster/cheaper with Haiku
+python -m agi_auditor --company "OpenAI" --framework openai-5-levels \
+    --model claude-haiku-4-5-20251001
+
+# Kimi explicitly
+python -m agi_auditor --company "OpenAI" --framework openai-5-levels \
+    --model kimi-k2-0905-preview
+
+# Skip LLM entirely
+python -m agi_auditor --company "OpenAI" --framework openai-5-levels --no-llm
+```
 
 ## Sample report excerpt
 

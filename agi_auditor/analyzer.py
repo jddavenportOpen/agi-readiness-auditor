@@ -9,12 +9,19 @@ the `bar`. Produces a per-criterion assessment:
     "evidence": [{"text": str, "source": str}, ...],   # supporting quotes
     "gap": str,        # what's missing vs the bar
     "confidence": float 0..1,
-    "method": "llm" | "deterministic",
+    "method": "llm:anthropic" | "llm:kimi" | "deterministic",
   }
 
-Primary path: an LLM (Kimi via Anthropic Messages shape) does the claim->criterion
-mapping and gap reasoning. Deterministic keyword path is the fallback when no key
-is configured or the call fails — so the tool ALWAYS produces a report.
+Primary path: Anthropic Claude (claude-sonnet-4-6) via the native Messages API.
+Kimi (Anthropic Messages shape) is retained as a secondary option — useful if you
+only have KIMI_API_KEY configured. Deterministic keyword analysis is the fallback
+when no LLM key is available — so the tool ALWAYS produces a report.
+
+Provider selection (--model flag maps to this):
+  "auto"               -> try anthropic, then kimi
+  "claude-*"           -> anthropic backend
+  "kimi-*"             -> kimi backend
+  any other string     -> anthropic backend with that model name
 """
 from __future__ import annotations
 
@@ -26,21 +33,58 @@ import urllib.error
 from typing import Any
 
 # ---------------------------------------------------------------------------
-# LLM path (Kimi, Anthropic Messages shape)
+# Backend: Anthropic Claude (primary)
 # ---------------------------------------------------------------------------
 
-_KIMI_MODEL = os.environ.get("AGI_AUDITOR_MODEL", "kimi-k2-0905-preview")
+_DEFAULT_CLAUDE_MODEL = "claude-sonnet-4-6"
+
+
+def _anthropic_key() -> str:
+    """Return the best available Anthropic API key, or empty string."""
+    return os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_API_KEY_SUB1", "")
+
+
+def _anthropic_available() -> bool:
+    return bool(_anthropic_key())
+
+
+def _call_claude(system: str, user: str, model: str | None = None, max_tokens: int = 1500) -> str:
+    key = _anthropic_key()
+    model = model or _DEFAULT_CLAUDE_MODEL
+    url = "https://api.anthropic.com/v1/messages"
+    payload = {
+        "model": model,
+        "max_tokens": max_tokens,
+        "system": system,
+        "messages": [{"role": "user", "content": user}],
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url, data=data, method="POST")
+    req.add_header("content-type", "application/json")
+    req.add_header("x-api-key", key)
+    req.add_header("anthropic-version", "2023-06-01")
+    with urllib.request.urlopen(req, timeout=90) as resp:
+        body = json.loads(resp.read().decode("utf-8"))
+    parts = body.get("content", [])
+    return "".join(p.get("text", "") for p in parts if p.get("type") == "text")
+
+
+# ---------------------------------------------------------------------------
+# Backend: Kimi (legacy / alternative)
+# ---------------------------------------------------------------------------
+
+_DEFAULT_KIMI_MODEL = os.environ.get("AGI_AUDITOR_MODEL", "kimi-k2-0905-preview")
 
 
 def _kimi_available() -> bool:
     return bool(os.environ.get("KIMI_API_KEY") and os.environ.get("KIMI_BASE_URL"))
 
 
-def _call_kimi(system: str, user: str, max_tokens: int = 1500) -> str:
+def _call_kimi(system: str, user: str, model: str | None = None, max_tokens: int = 1500) -> str:
     base = os.environ["KIMI_BASE_URL"].rstrip("/")
     url = f"{base}/v1/messages"
     payload = {
-        "model": _KIMI_MODEL,
+        "model": model or _DEFAULT_KIMI_MODEL,
         "max_tokens": max_tokens,
         "system": system,
         "messages": [{"role": "user", "content": user}],
@@ -56,7 +100,47 @@ def _call_kimi(system: str, user: str, max_tokens: int = 1500) -> str:
     return "".join(p.get("text", "") for p in parts if p.get("type") == "text")
 
 
-def _llm_assess(framework: dict, company: str, claims: list[dict], criterion: dict) -> dict | None:
+# ---------------------------------------------------------------------------
+# Provider resolution
+# ---------------------------------------------------------------------------
+
+def _resolve_backend(model: str | None) -> tuple[str | None, str | None]:
+    """Return (provider, model_id) or (None, None) if no LLM backend is available.
+
+    model="auto" or None  -> prefer anthropic, fall back to kimi
+    model="claude-*"      -> anthropic (error if key absent)
+    model="kimi-*"        -> kimi (error if key absent)
+    model=<other>         -> anthropic with that exact model string
+    """
+    explicit = model and model != "auto"
+    if explicit:
+        if model.startswith("kimi"):
+            return ("kimi", model) if _kimi_available() else (None, None)
+        # Treat any non-kimi explicit model as an Anthropic model
+        return ("anthropic", model) if _anthropic_available() else (None, None)
+    # Auto: prefer anthropic
+    if _anthropic_available():
+        return "anthropic", _DEFAULT_CLAUDE_MODEL
+    if _kimi_available():
+        return "kimi", _DEFAULT_KIMI_MODEL
+    return None, None
+
+
+# ---------------------------------------------------------------------------
+# LLM assessment
+# ---------------------------------------------------------------------------
+
+def _llm_assess(
+    framework: dict,
+    company: str,
+    claims: list[dict],
+    criterion: dict,
+    model: str | None = None,
+) -> dict | None:
+    provider, actual_model = _resolve_backend(model)
+    if provider is None:
+        return None
+
     scale = framework["scale"]
     claim_block = "\n".join(
         f"[{i}] {c['text']}  (source: {c['source']})" for i, c in enumerate(claims)
@@ -87,7 +171,10 @@ def _llm_assess(framework: dict, company: str, claims: list[dict], criterion: di
         "If rating is 'none', evidence_indices = []."
     )
     try:
-        raw = _call_kimi(system, user)
+        if provider == "anthropic":
+            raw = _call_claude(system, user, actual_model)
+        else:
+            raw = _call_kimi(system, user, actual_model)
     except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError):
         return None
     parsed = _extract_json(raw)
@@ -112,7 +199,7 @@ def _llm_assess(framework: dict, company: str, claims: list[dict], criterion: di
         "evidence": evidence,
         "gap": str(parsed.get("gap", "")).strip() or "(no gap statement)",
         "confidence": max(0.0, min(1.0, conf)),
-        "method": "llm",
+        "method": f"llm:{provider}",
     }
 
 
@@ -164,7 +251,6 @@ def _deterministic_assess(framework: dict, company: str, claims: list[dict], cri
 
     top = scored[: min(3, len(scored))]
     best_overlap = top[0][0]
-    # Strength heuristic: does the top claim carry a "hard commitment" signal?
     hard = re.compile(r"\b(threshold|will pause|halt|gate|named|commit|standard|ASL-?\d|score)\b", re.I)
     has_hard = any(hard.search(c["text"]) for _, c in top)
 
@@ -201,15 +287,22 @@ def assess(
     claims: list[dict],
     use_llm: bool = True,
     verbose: bool = False,
+    model: str | None = None,
 ) -> dict[str, Any]:
-    """Run the full audit. Returns a results dict ready for rendering."""
-    llm_on = use_llm and _kimi_available()
+    """Run the full audit. Returns a results dict ready for rendering.
+
+    model: provider/model selection — "auto" (default), "claude-sonnet-4-6",
+           "claude-haiku-4-5-20251001", "kimi-k2-0905-preview", etc.
+    """
+    provider, actual_model = _resolve_backend(model) if use_llm else (None, None)
+    llm_on = use_llm and provider is not None
+
     results = []
-    methods = {"llm": 0, "deterministic": 0}
+    methods: dict[str, int] = {}
     for crit in framework["criteria"]:
         r = None
         if llm_on:
-            r = _llm_assess(framework, company, claims, crit)
+            r = _llm_assess(framework, company, claims, crit, model)
             if r is None and verbose:
                 print(f"  [info] LLM assess failed for {crit['id']} -> deterministic fallback")
         if r is None:
@@ -219,11 +312,13 @@ def assess(
         if verbose:
             print(f"  [{r['method']}] {crit['id']}: {r['rating']} (conf {r['confidence']:.2f})")
 
+    any_llm = any(r["method"].startswith("llm") for r in results)
     return {
         "company": company,
         "framework": framework,
         "claims_count": len(claims),
         "results": results,
         "method_summary": methods,
-        "llm_enabled": llm_on,
+        "llm_enabled": any_llm,
+        "llm_model": actual_model if any_llm else None,
     }

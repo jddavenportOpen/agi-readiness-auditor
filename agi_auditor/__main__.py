@@ -17,14 +17,23 @@ from . import __version__, analyzer, corpus, report
 from .frameworks import list_frameworks, load_framework
 
 
-def _load_env_file() -> None:
-    """Best-effort: load KIMI_* from ~/agent-system/.env if not already set.
+_ENV_KEYS = frozenset({
+    "ANTHROPIC_API_KEY",
+    "ANTHROPIC_API_KEY_SUB1",  # JD's agent-system sub-key (used when ANTHROPIC_API_KEY is absent)
+    "KIMI_API_KEY",
+    "KIMI_BASE_URL",
+    "KIMI_MODEL",
+    "AGI_AUDITOR_MODEL",
+})
 
-    The tool works WITHOUT this (deterministic fallback). This is a convenience
-    for local runs. It never prints or logs the key.
+
+def _load_env_file() -> None:
+    """Best-effort: load LLM API keys from ~/agent-system/.env if not already set.
+
+    Prefers ANTHROPIC_API_KEY; falls back to ANTHROPIC_API_KEY_SUB1 (used when
+    the standard key is the OAuth token slot, as in JD's agent-system setup).
+    The tool works without any key (deterministic fallback). Never logs keys.
     """
-    if os.environ.get("KIMI_API_KEY"):
-        return
     path = os.path.expanduser("~/agent-system/.env")
     if not os.path.exists(path):
         return
@@ -36,7 +45,7 @@ def _load_env_file() -> None:
                     continue
                 k, _, v = line.partition("=")
                 k = k.strip()
-                if k in ("KIMI_API_KEY", "KIMI_BASE_URL", "AGI_AUDITOR_MODEL"):
+                if k in _ENV_KEYS:
                     os.environ.setdefault(k, v.strip().strip('"').strip("'"))
     except OSError:
         pass
@@ -73,6 +82,17 @@ def main(argv: list[str] | None = None) -> int:
         help="Path to a plain-text file of claims (one per sentence) to analyze.",
     )
     p.add_argument("-o", "--out", help="Write report to this file instead of stdout.")
+    p.add_argument(
+        "--model",
+        default="auto",
+        metavar="MODEL",
+        help=(
+            "LLM model to use. Examples: claude-sonnet-4-6 (default Anthropic), "
+            "claude-haiku-4-5-20251001 (faster/cheaper), kimi-k2-0905-preview (Kimi). "
+            "Default: 'auto' — tries Anthropic first, then Kimi. "
+            "Set ANTHROPIC_API_KEY (or ANTHROPIC_API_KEY_SUB1) for the Anthropic backend."
+        ),
+    )
     p.add_argument(
         "--no-llm",
         action="store_true",
@@ -125,7 +145,8 @@ def main(argv: list[str] | None = None) -> int:
                 file=sys.stderr,
             )
             r = analyzer.assess(
-                framework, canonical, claims, use_llm=not args.no_llm, verbose=args.verbose
+                framework, canonical, claims,
+                use_llm=not args.no_llm, verbose=args.verbose, model=args.model,
             )
             all_results.append(r)
         md = report.render_compare(all_results)
@@ -167,6 +188,7 @@ def main(argv: list[str] | None = None) -> int:
         claims_list,
         use_llm=not args.no_llm,
         verbose=args.verbose,
+        model=args.model,
     )
     md = report.render(result)
 
