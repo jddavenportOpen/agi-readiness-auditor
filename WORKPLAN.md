@@ -1,8 +1,8 @@
 # AGI Readiness Auditor — WORKPLAN
 
 <!-- STATUS-BEGIN -->
-Progress: 1 of 3 milestones complete (33%)
-Last ship: 3m ago — M1 shipped: added Google/Microsoft/Meta/xAI bundled corpora, DeepMind Frontier Safety Framework (deepmind-fsf), --compare side-by-side comparison mode, corpus.canonical_name(), 9 tests passing, 4 new example reports; pushed to github.com/JDDavenport/agi-readiness-auditor main
+Progress: 2 of 3 milestones complete (67%)
+Last ship: today — M2: Anthropic Claude wired as primary LLM backend (claude-sonnet-4-6), multi-provider routing, --model flag, 12/12 tests pass, live API verified
 <!-- STATUS-END -->
 
 
@@ -14,7 +14,7 @@ Last ship: 3m ago — M1 shipped: added Google/Microsoft/Meta/xAI bundled corpor
 
 ## Milestones
 - [x] M1: Major lab expansion — add Google, Microsoft, Meta, xAI corpora; add DeepMind Frontier Safety Framework; add `--compare` mode for side-by-side multi-company comparison tables; 9 tests passing; 6 example reports
-- [ ] M2: LLM quality upgrade — wire Anthropic Claude as primary LLM backend (replace Kimi shape), verify LLM path end-to-end, add `--model` flag to choose provider
+- [x] M2: LLM quality upgrade — wire Anthropic Claude as primary LLM backend (replace Kimi shape), verify LLM path end-to-end, add `--model` flag to choose provider
 - [ ] M3: Web API + hosted compare — FastAPI endpoint (`POST /audit`, `POST /compare`) that calls the Python core; update index.html to call it; deploy to Vercel (Python runtime) or Railway
 
 ## Blocked on JD decisions
