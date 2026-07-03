@@ -1,9 +1,8 @@
 # AGI Readiness Auditor — WORKPLAN
 
 <!-- STATUS-BEGIN -->
-Progress: 0 of 3 milestones complete (0%)
-Last ship: 31d ago — shipped MVP — Python CLI that diffs a company's public AI-safety claims vs published readiness frameworks (OpenAI 5 Levels / Preparedness, Anthropic RSP), LLM claim->criterion mapping w/ deterministic fallback, markdown gap reports, 4 examples, 5 tests, pushed to github.com/JDDavenport/agi-readiness-auditor main
-⚠ STALLED: 31d since last ship
+Progress: 1 of 3 milestones complete (33%)
+Last ship: today — M1: 4 new corpora (Google/Microsoft/Meta/xAI), DeepMind FSF framework, --compare mode, 9 tests, 6 example reports, pushed to github.com/JDDavenport/agi-readiness-auditor main
 <!-- STATUS-END -->
 
 
@@ -14,7 +13,7 @@ Last ship: 31d ago — shipped MVP — Python CLI that diffs a company's public 
 3. **M3: Web API + hosted compare** — FastAPI endpoint wrapping the CLI so the static index.html can call a real backend instead of being a dummy page
 
 ## Milestones
-- [ ] M1: Major lab expansion — add Google, Microsoft, Meta, xAI corpora; add DeepMind Frontier Safety Framework; add `--compare` mode for side-by-side multi-company comparison tables; 9 tests passing; 6 example reports
+- [x] M1: Major lab expansion — add Google, Microsoft, Meta, xAI corpora; add DeepMind Frontier Safety Framework; add `--compare` mode for side-by-side multi-company comparison tables; 9 tests passing; 6 example reports
 - [ ] M2: LLM quality upgrade — wire Anthropic Claude as primary LLM backend (replace Kimi shape), verify LLM path end-to-end, add `--model` flag to choose provider
 - [ ] M3: Web API + hosted compare — FastAPI endpoint (`POST /audit`, `POST /compare`) that calls the Python core; update index.html to call it; deploy to Vercel (Python runtime) or Railway
 
