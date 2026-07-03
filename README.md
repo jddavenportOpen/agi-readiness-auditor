@@ -179,6 +179,39 @@ The **coverage score** (0–100) is the average credit across criteria. It measu
 - **Frameworks evolve.** OpenAI's and Anthropic's documents get revised; the
   encoded bars reflect the cited versions. Check the source URLs for current text.
 
+## Web API (hosted)
+
+**Live:** [agi-readiness-auditor.vercel.app](https://agi-readiness-auditor.vercel.app)
+
+The hosted version exposes a FastAPI backend:
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/frameworks` | GET | List available frameworks |
+| `/api/corpus` | GET | List bundled company corpora |
+| `/api/audit` | POST | Audit a company against a framework |
+| `/api/compare` | POST | Compare multiple companies side-by-side |
+
+Example:
+```bash
+# Audit Anthropic against its own RSP
+curl -X POST https://agi-readiness-auditor.vercel.app/api/audit \
+  -H "Content-Type: application/json" \
+  -d '{"company":"anthropic","framework":"anthropic-rsp","no_llm":true}'
+```
+
+### Self-host with Railway or any platform
+
+```bash
+# Local dev
+pip install -r requirements.txt
+uvicorn api.app:app --reload
+
+# Railway: push to GitHub and connect at railway.app
+# The Procfile and railway.toml configure the start command automatically.
+# Set ANTHROPIC_API_KEY in environment variables to enable LLM analysis.
+```
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
