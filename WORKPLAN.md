@@ -1,8 +1,8 @@
 # AGI Readiness Auditor — WORKPLAN
 
 <!-- STATUS-BEGIN -->
-Progress: 2 of 3 milestones complete (67%)
-Last ship: today — M2: Anthropic Claude wired as primary LLM backend (claude-sonnet-4-6), multi-provider routing, --model flag, 12/12 tests pass, live API verified
+Progress: 3 of 3 milestones complete (100%)
+Last ship: today — M3: FastAPI web API (POST /audit, POST /compare) + interactive frontend deployed live at https://agi-readiness-auditor.vercel.app; 29/29 tests pass
 <!-- STATUS-END -->
 
 
@@ -15,7 +15,7 @@ Last ship: today — M2: Anthropic Claude wired as primary LLM backend (claude-s
 ## Milestones
 - [x] M1: Major lab expansion — add Google, Microsoft, Meta, xAI corpora; add DeepMind Frontier Safety Framework; add `--compare` mode for side-by-side multi-company comparison tables; 9 tests passing; 6 example reports
 - [x] M2: LLM quality upgrade — wire Anthropic Claude as primary LLM backend (replace Kimi shape), verify LLM path end-to-end, add `--model` flag to choose provider
-- [ ] M3: Web API + hosted compare — FastAPI endpoint (`POST /audit`, `POST /compare`) that calls the Python core; update index.html to call it; deploy to Vercel (Python runtime) or Railway
+- [x] M3: Web API + hosted compare — FastAPI endpoint (`POST /audit`, `POST /compare`) that calls the Python core; update index.html to call it; deploy to Vercel (Python runtime) or Railway
 
 ## Blocked on JD decisions
 - (none)

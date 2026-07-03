@@ -7,6 +7,7 @@ Run `bash ~/agent-system/scripts/clawd-log.sh agi-readiness-auditor "shipped X"`
 
 ## 2026-07-03
 
+- 16:08 — M3: FastAPI web API + interactive frontend deployed to Vercel; POST /api/audit, POST /api/compare, GET /api/frameworks, GET /api/corpus; index.html now calls real backend (single + compare modes); 29/29 tests pass; live at https://agi-readiness-auditor.vercel.app
 - 16:30 — M2: Anthropic Claude wired as primary LLM backend (claude-sonnet-4-6), multi-provider routing (_resolve_backend), --model flag, env auto-loads ANTHROPIC_API_KEY_SUB1, 12/12 tests pass, live API verified
 - 15:42 — M1 shipped: added Google/Microsoft/Meta/xAI bundled corpora, DeepMind Frontier Safety Framework (deepmind-fsf), --compare side-by-side comparison mode, corpus.canonical_name(), 9 tests passing, 4 new example reports; pushed to github.com/JDDavenport/agi-readiness-auditor main
 
