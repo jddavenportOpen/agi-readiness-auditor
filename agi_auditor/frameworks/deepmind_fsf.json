@@ -1,0 +1,41 @@
+{
+  "id": "deepmind-fsf",
+  "name": "Google DeepMind Frontier Safety Framework (FSF)",
+  "description": "Google DeepMind's Frontier Safety Framework (May 2024) defines critical safety behaviors any frontier AI lab should meet, plus a two-tier concern-level system (Level 1: enhanced monitoring; Level 2: development/deployment halt) triggered by dangerous-capability evaluations. We treat each critical behavior as a criterion: does the company publicly claim a posture that addresses it?",
+  "sources": [
+    "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
+  ],
+  "scale": ["none", "partial", "substantial", "strong"],
+  "criteria": [
+    {
+      "id": "fsf_dangerous_cap_evals",
+      "name": "Scheduled dangerous-capability evaluations",
+      "bar": "Run pre-deployment and in-deployment evaluations for dangerous capabilities (CBRN, cyber, autonomy) on a defined schedule. Bar: publicly state a commitment to scheduled model evaluations for dangerous capabilities before deployment and at defined capability checkpoints.",
+      "source": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
+    },
+    {
+      "id": "fsf_cbrn_uplift",
+      "name": "CBRN uplift prevention",
+      "bar": "Commit to not providing serious uplift toward creation of weapons capable of mass casualties (CBRN: chemical, biological, radiological, nuclear). Bar: a named, public prohibition on CBRN-uplifting use cases backed by a stated detection/filtering mechanism.",
+      "source": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
+    },
+    {
+      "id": "fsf_oversight_preservation",
+      "name": "Oversight preservation",
+      "bar": "Commit to not undermining human ability to oversee, correct, or shut down AI models. Bar: a public statement affirming that the company will not deploy or support systems that actively evade correction or oversight mechanisms, with a stated mechanism for this.",
+      "source": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
+    },
+    {
+      "id": "fsf_autonomy_controls",
+      "name": "Unsanctioned autonomy / power-seizure prevention",
+      "bar": "Commit to preventing AI from engaging in or assisting attempts to seize unprecedented societal control or accumulate resources beyond sanctioned limits. Bar: public policy or framework language explicitly covering autonomous action limits and power-accumulation safeguards.",
+      "source": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
+    },
+    {
+      "id": "fsf_deployment_gate",
+      "name": "Threshold-based deployment halt",
+      "bar": "Define pre-specified concern levels where development or deployment pauses until safeguards are in place. Bar: a public commitment to halt or restrict deployment when a named threshold (capability evaluation result, concern level, or equivalent) is crossed, before safeguards exist.",
+      "source": "https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/"
+    }
+  ]
+}

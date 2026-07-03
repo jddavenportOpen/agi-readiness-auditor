@@ -49,6 +49,14 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("--company", help="Company name (e.g. 'OpenAI').")
     p.add_argument(
+        "--compare",
+        metavar="COMPANIES",
+        help=(
+            "Comma-separated list of bundled company names to audit side-by-side "
+            "(e.g. 'openai,anthropic,google,microsoft'). Produces a comparison table."
+        ),
+    )
+    p.add_argument(
         "--framework",
         default="openai-5-levels",
         help=f"Framework id. One of: {', '.join(list_frameworks())}",
@@ -87,8 +95,8 @@ def main(argv: list[str] | None = None) -> int:
             print(c)
         return 0
 
-    if not args.company:
-        p.error("--company is required (or use --list-frameworks / --list-corpus)")
+    if not args.company and not args.compare:
+        p.error("--company or --compare is required (or use --list-frameworks / --list-corpus)")
 
     _load_env_file()
 
@@ -98,34 +106,65 @@ def main(argv: list[str] | None = None) -> int:
         print(f"error: {e}", file=sys.stderr)
         return 2
 
-    # Gather claims
-    claims: list[dict] = []
+    # --- Compare mode: audit multiple bundled companies side-by-side ---
+    if args.compare:
+        company_names = [c.strip() for c in args.compare.split(",") if c.strip()]
+        if len(company_names) < 2:
+            print("error: --compare requires at least two company names.", file=sys.stderr)
+            return 2
+        all_results = []
+        for slug in company_names:
+            try:
+                claims = corpus.load_bundled(slug)
+            except FileNotFoundError as e:
+                print(f"error: {e}", file=sys.stderr)
+                return 2
+            canonical = corpus.canonical_name(slug)
+            print(
+                f"Auditing {canonical} against '{framework['name']}' ({len(claims)} claims)...",
+                file=sys.stderr,
+            )
+            r = analyzer.assess(
+                framework, canonical, claims, use_llm=not args.no_llm, verbose=args.verbose
+            )
+            all_results.append(r)
+        md = report.render_compare(all_results)
+        if args.out:
+            with open(args.out, "w", encoding="utf-8") as f:
+                f.write(md)
+            print(f"Wrote {args.out}", file=sys.stderr)
+        else:
+            print(md)
+        return 0
+
+    # --- Single company mode ---
+    claims_list: list[dict] = []
     if args.url:
         print(f"Fetching {len(args.url)} URL(s)...", file=sys.stderr)
-        claims = corpus.fetch_urls(args.url)
+        claims_list = corpus.fetch_urls(args.url)
     elif args.claims_file:
-        claims = corpus.load_text_file(args.claims_file)
+        claims_list = corpus.load_text_file(args.claims_file)
     else:
         try:
-            claims = corpus.load_bundled(args.company)
+            claims_list = corpus.load_bundled(args.company)
             print(f"Using bundled corpus for '{args.company}'.", file=sys.stderr)
         except FileNotFoundError as e:
             print(f"error: {e}", file=sys.stderr)
             return 2
 
-    if not claims:
+    if not claims_list:
         print("error: no claims gathered — nothing to audit.", file=sys.stderr)
         return 3
 
     print(
         f"Auditing {args.company} against '{framework['name']}' "
-        f"({len(claims)} claims)...",
+        f"({len(claims_list)} claims)...",
         file=sys.stderr,
     )
     result = analyzer.assess(
         framework,
         args.company,
-        claims,
+        claims_list,
         use_llm=not args.no_llm,
         verbose=args.verbose,
     )

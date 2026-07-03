@@ -43,6 +43,20 @@ def load_bundled(company: str) -> list[dict[str, str]]:
     return data["claims"]
 
 
+def canonical_name(company: str) -> str:
+    """Return the canonical company name from the bundled corpus JSON, or the input unchanged."""
+    slug = company.strip().lower().replace(" ", "-")
+    path = _CORPUS_DIR / f"{slug}.json"
+    if not path.exists():
+        return company
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("company", company)
+    except (OSError, json.JSONDecodeError):
+        return company
+
+
 def fetch_urls(urls: list[str], max_claims_per_url: int = 12) -> list[dict[str, str]]:
     """Fetch each URL, extract candidate claim sentences. Best-effort."""
     try:

@@ -3,10 +3,12 @@
 **Pressure-test the public AGI-safety story.** A Python CLI that takes a company's
 **public** AI-safety claims — blog posts, safety frameworks, model/system cards,
 public statements — and diffs them against a published readiness framework
-(OpenAI's *5 Levels of AGI*, OpenAI's *Preparedness Framework*, or Anthropic's
-*Responsible Scaling Policy*). It auto-generates a **gap report**: per-criterion,
-where the company's stated posture *meets* the framework's bar vs *falls short* —
-with the evidence quote, a gap assessment, and a confidence score.
+(OpenAI's *5 Levels of AGI*, OpenAI's *Preparedness Framework*, Anthropic's
+*Responsible Scaling Policy*, or Google DeepMind's *Frontier Safety Framework*).
+It auto-generates a **gap report**: per-criterion, where the company's stated
+posture *meets* the framework's bar vs *falls short* — with the evidence quote,
+a gap assessment, and a confidence score. Compare multiple labs side-by-side
+with `--compare`.
 
 The point: the big labs publish AGI-readiness frameworks. This tool holds them
 (and anyone else) to those same published bars, **on the public record, checkably.**
@@ -33,11 +35,20 @@ The point: the big labs publish AGI-readiness frameworks. This tool holds them
 
 | id | framework | criteria | source |
 |---|---|---|---|
+| `anthropic-rsp` | Anthropic Responsible Scaling Policy (ASL levels) | 5 | [Anthropic](https://www.anthropic.com/news/anthropics-responsible-scaling-policy) |
+| `deepmind-fsf` | Google DeepMind Frontier Safety Framework (eval schedules, CBRN, oversight, autonomy, deployment gates) | 5 | [DeepMind, May 2024](https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/) |
 | `openai-5-levels` | OpenAI 5 Levels of AGI (Chatbots→Reasoners→Agents→Innovators→Organizations) | 5 | [Bloomberg, Jul 2024](https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai) |
 | `openai-preparedness` | OpenAI Preparedness Framework (cyber, CBRN, persuasion, autonomy, governance) | 5 | [OpenAI](https://openai.com/index/updating-our-preparedness-framework/) |
-| `anthropic-rsp` | Anthropic Responsible Scaling Policy (ASL levels) | 5 | [Anthropic](https://www.anthropic.com/news/anthropics-responsible-scaling-policy) |
 
 Frameworks are plain JSON in `agi_auditor/frameworks/` — add your own composite rubric by dropping in a file and registering it.
+
+## Bundled corpora
+
+Bundled offline corpora for: **Anthropic, Google, Meta, Microsoft, OpenAI, xAI** — use any as `--company` or in `--compare`.
+
+```
+python -m agi_auditor --list-corpus
+```
 
 ## Install
 
@@ -62,6 +73,14 @@ python -m agi_auditor --company "Anthropic" --framework anthropic-rsp -o report.
 
 # Cross-audit: Anthropic held to OpenAI's Preparedness framework:
 python -m agi_auditor --company "Anthropic" --framework openai-preparedness
+
+# Compare all 6 major labs side-by-side on the same rubric:
+python -m agi_auditor --compare "openai,anthropic,google,microsoft,meta,xai" \
+    --framework openai-preparedness -o comparison.md
+
+# Compare on the DeepMind FSF rubric:
+python -m agi_auditor --compare "openai,anthropic,google,microsoft,meta,xai" \
+    --framework deepmind-fsf -o comparison-fsf.md
 
 # Audit any company from live public URLs:
 python -m agi_auditor --company "Acme AI" --framework openai-preparedness \

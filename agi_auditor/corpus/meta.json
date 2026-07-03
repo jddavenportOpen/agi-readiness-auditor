@@ -1,0 +1,34 @@
+{
+  "company": "Meta",
+  "note": "Bundled public-claim corpus covering Meta AI safety. Each item is a paraphrase or short quote of a PUBLIC statement with its source URL. Covers Meta's Responsible Use Guide, Llama model cards, and Meta AI safety blog. Verify against sources before citing externally.",
+  "claims": [
+    {
+      "text": "Meta's Responsible Use Guide for Llama models defines permitted and prohibited uses, including hard prohibitions on using Llama for weapons of mass destruction, critical infrastructure attacks, malware generation, and CBRN uplift.",
+      "source": "https://llama.meta.com/responsible-use-guide/"
+    },
+    {
+      "text": "Meta releases Llama models with publicly available system cards documenting red-team evaluation results, known capability limitations, fine-tuning risks, and safety mitigations including safety-tuned RLHF variants.",
+      "source": "https://ai.meta.com/research/publications/meta-llama-3-model-card/"
+    },
+    {
+      "text": "Meta's Llama 3 purple-teaming effort included testing for CBRN uplift, cyberattack assistance, jailbreak susceptibility, and code generation for malicious purposes; safety mitigations were updated in response.",
+      "source": "https://ai.meta.com/research/publications/meta-llama-3-model-card/"
+    },
+    {
+      "text": "Meta maintains a Bug Bounty program for AI systems and accepts responsible-disclosure reports for harmful content generation vulnerabilities across Meta AI products.",
+      "source": "https://www.facebook.com/whitehat"
+    },
+    {
+      "text": "Meta publishes an annual 'Responsible AI Report' documenting progress on Responsible AI principles across fairness, transparency, privacy, safety, and accountability.",
+      "source": "https://ai.meta.com/responsible-use/"
+    },
+    {
+      "text": "Meta's open-release model policy is governed by a responsible-release checklist; models above certain capability thresholds receive restricted access rather than open weights, as stated in Meta's dual-use risk analysis process.",
+      "source": "https://llama.meta.com/responsible-use-guide/"
+    },
+    {
+      "text": "Meta AI's agentic tools (Meta AI with tool access, AI agents in products) apply usage-policy controls on actions, documented in Meta's AI-integrated product policies, with human-visible disclosure of AI-generated content.",
+      "source": "https://ai.meta.com/responsible-use/"
+    }
+  ]
+}

@@ -13,9 +13,10 @@ _FRAMEWORK_DIR = Path(__file__).parent / "frameworks"
 
 # id -> filename
 _REGISTRY = {
+    "anthropic-rsp": "anthropic_rsp.json",
+    "deepmind-fsf": "deepmind_fsf.json",
     "openai-5-levels": "openai_5_levels.json",
     "openai-preparedness": "openai_preparedness.json",
-    "anthropic-rsp": "anthropic_rsp.json",
 }
 
 

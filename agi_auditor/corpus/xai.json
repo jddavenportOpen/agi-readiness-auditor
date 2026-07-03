@@ -1,0 +1,26 @@
+{
+  "company": "xAI",
+  "note": "Bundled public-claim corpus covering xAI safety. Each item is a paraphrase or short quote of a PUBLIC statement with its source URL. xAI has limited public safety documentation relative to other major AI labs. Verify against sources before citing externally.",
+  "claims": [
+    {
+      "text": "xAI states its mission is 'to understand the true nature of the universe' and that Grok is designed to be 'maximally helpful' while avoiding serious harm; usage policies prohibit weapons of mass destruction, CSAM, and other high-harm uses.",
+      "source": "https://x.ai/about"
+    },
+    {
+      "text": "Grok has been reported by xAI to include safety classifiers and content filtering for high-harm categories including CBRN content generation, though no detailed public Preparedness-style framework or named evaluation methodology has been published.",
+      "source": "https://x.ai/blog"
+    },
+    {
+      "text": "xAI's terms of service for the Grok API prohibit use for cyberweapons, CBRN synthesis, election interference, and content that facilitates mass casualties; these are usage-policy restrictions rather than a stated technical capability gate.",
+      "source": "https://x.ai/legal"
+    },
+    {
+      "text": "xAI has not published a formal responsible-scaling policy, safety framework, or named internal evaluation process for dangerous capabilities comparable to those published by Anthropic, OpenAI, or Google DeepMind as of mid-2025.",
+      "source": "https://x.ai/about"
+    },
+    {
+      "text": "Grok's model card (limited disclosure) notes that the model underwent safety fine-tuning and red-team evaluation but does not specify the scope of CBRN, cyber, or autonomy evaluations or the thresholds used for deployment gating.",
+      "source": "https://x.ai/blog"
+    }
+  ]
+}
