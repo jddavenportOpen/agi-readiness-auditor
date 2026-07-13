@@ -1,0 +1,8 @@
+# Rename this file to qa.yaml to ACTIVATE the pre-push QA gate (functional +
+# visual, via ~/agent-system/scripts/qa-ship.sh agi-readiness-auditor). Until then the gate
+# is dormant (exits 0). CI already runs unit tests + lint on every PR.
+url: <deployed or local URL under test>
+prd: ~/clawd/projects/agi-readiness-auditor/qa/smoke-prd.md
+mode: smoke
+# regressions:        # optional named browser-regression sets (visual)
+#   - <set-name>

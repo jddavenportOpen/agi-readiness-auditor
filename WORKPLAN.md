@@ -2,7 +2,8 @@
 
 <!-- STATUS-BEGIN -->
 Progress: 3 of 3 milestones complete (100%)
-Last ship: today — M3: FastAPI web API (POST /audit, POST /compare) + interactive frontend deployed live at https://agi-readiness-auditor.vercel.app; 29/29 tests pass
+Last ship: 9d ago — M2: Anthropic Claude wired as primary LLM backend (claude-sonnet-4-6), multi-provider routing (_resolve_backend), --model flag, env auto-loads ANTHROPIC_API_KEY_SUB1, 12/12 tests pass, live API verified
+⚠ STALLED: 9d since last ship
 <!-- STATUS-END -->
 
 
