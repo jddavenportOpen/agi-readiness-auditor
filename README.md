@@ -53,7 +53,7 @@ python -m agi_auditor --list-corpus
 ## Install
 
 ```bash
-git clone https://github.com/JDDavenport/agi-readiness-auditor.git
+git clone https://github.com/jddavenportOpen/agi-readiness-auditor.git
 cd agi-readiness-auditor
 pip install -r requirements.txt   # only needed for live --url fetching
 ```
