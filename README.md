@@ -12,7 +12,13 @@ python -m agi_auditor --company "OpenAI" --framework openai-5-levels --no-llm
 
 That runs offline on the Python standard library. Add an LLM key (below) for better mapping.
 
-It audits public claims only. It can't see what a lab does internally, and a high score doesn't mean a lab is safe or keeps its commitments. Scores also depend on the framework you pick. Anthropic scores 26/100 against OpenAI's Preparedness rubric mostly because its public writing is organized around its own RSP categories.
+> **Scope & honesty.** This audits *public claims*, not internal reality. A high
+> score means the public story is *complete against the chosen framework*, not
+> that the company is safe, and not that it honors its commitments. Every finding
+> cites a source URL so you can verify it yourself. This is a starting point for a
+> conversation, not a verdict.
+
+Scores also depend on the framework you pick. Anthropic scores 26/100 against OpenAI's Preparedness rubric mostly because its public writing is organized around its own RSP categories.
 
 Moved here from my private working repo in July 2026. Most of this code was written by Claude Code agents I run. I pick what gets built, set the tests it has to pass, and check it by using it.
 
@@ -154,22 +160,22 @@ Each criterion gets one of `none`, `partial`, `substantial` or `strong`.
 - **none**: no public claim addresses the criterion.
 
 The **coverage score** (0 to 100) is the average credit across criteria. It measures
-how complete the public story is against the chosen framework. That's all it measures.
+*completeness of the public story against the chosen framework*, nothing more.
 
-## Limitations
+## Limitations (read these)
 
 - **Public claims only.** It cannot see internal practice, unpublished evals, or
-  whether commitments are actually honored. A complete public story can cover for
-  weak internal practice, and a short one can sit on top of strong practice.
+  whether commitments are actually honored. A complete public story can still mask
+  a weak internal one, and a terse public story can hide strong internal practice.
 - **Framework-relative.** A company scores differently against different rubrics by
-  design. A low cross-audit score says the claims didn't map well. It says nothing about safety.
+  design. A low cross-audit score is a *mapping* result, not a safety verdict.
 - **Corpus-bound.** With the bundled corpus, results reflect the specific quotes
-  included. For a real audit, pass the lab's actual documents with `--url`. The bundled
-  sets are small starting points.
+  included. For a real audit, feed comprehensive `--url` sources. The bundled
+  corpora are illustrative starting sets, not exhaustive.
 - **LLM judgment.** The mapping is a language-model assessment; confidence scores
   are the model's, not ground truth. Always read the evidence quotes and verify
   against the linked sources before citing externally.
-- **Frameworks change.** OpenAI and Anthropic revise their documents, and the
+- **Frameworks evolve.** OpenAI's and Anthropic's documents get revised; the
   encoded bars reflect the cited versions. Check the source URLs for current text.
 
 ## License

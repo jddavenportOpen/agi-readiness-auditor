@@ -6,7 +6,7 @@
 **Analysis method:** deterministic keyword fallback  
 **Claims analyzed:** 8
 
-> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, frameworks, model/system cards, public statements. It does **not** measure internal practice or whether claims are honored. A high score means the public story is complete. It doesn't mean the company is safe.
+> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, frameworks, model/system cards, public statements. It does **not** measure internal practice or whether claims are honored. A high score means the public story is complete, not that the company is safe.
 
 ## Summary
 
@@ -34,7 +34,7 @@
 > Source: https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/
 
 > Google DeepMind publishes the Gemini 1.5 and Gemini 1.0 technical reports and system cards documenting capability evaluations, safety red-teaming, and known failure modes including hallucination.
-> Source: https://storage.googleapis.com/deepmind-media/gemini/gemini_1_5_report.pdf
+> Source: https://arxiv.org/abs/2403.05530
 
 **Gap assessment:** Keyword + hard-commitment signal present (deterministic). Verify specificity manually.
 
@@ -119,7 +119,7 @@
 > Source: https://deepmind.google/discover/blog/introducing-the-frontier-safety-framework/
 
 > Google DeepMind publishes the Gemini 1.5 and Gemini 1.0 technical reports and system cards documenting capability evaluations, safety red-teaming, and known failure modes including hallucination.
-> Source: https://storage.googleapis.com/deepmind-media/gemini/gemini_1_5_report.pdf
+> Source: https://arxiv.org/abs/2403.05530
 
 **Gap assessment:** Keyword + hard-commitment signal present (deterministic). Verify specificity manually.
 

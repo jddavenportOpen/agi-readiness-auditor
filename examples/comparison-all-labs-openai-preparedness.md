@@ -4,7 +4,7 @@
 **Date:** 2026-07-03  
 **Companies compared:** OpenAI, Anthropic, Google, Microsoft, Meta, xAI
 
-> **Scope:** This audits each company's PUBLIC, stated posture only. Scores measure how complete the public story is against this framework. They don't measure internal practice or whether commitments are honored.
+> **Scope:** This audits each company's PUBLIC, stated posture only. Scores measure completeness of the public story against this framework, not internal practice or whether commitments are honored.
 
 ## Coverage Scores
 

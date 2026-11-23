@@ -6,7 +6,7 @@
 **Analysis method:** deterministic keyword fallback  
 **Claims analyzed:** 7
 
-> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, frameworks, model/system cards, public statements. It does **not** measure internal practice or whether claims are honored. A high score means the public story is complete. It doesn't mean the company is safe.
+> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, frameworks, model/system cards, public statements. It does **not** measure internal practice or whether claims are honored. A high score means the public story is complete, not that the company is safe.
 
 ## Summary
 
@@ -53,7 +53,7 @@
 > Source: https://www.microsoft.com/en-us/security/blog/2023/08/07/microsoft-ai-red-team-building-future-of-safer-ai/
 
 > Microsoft publishes Transparency Notes for AI features documenting intended uses, evaluated use cases, and known limitations including reliability failure modes and performance disparities.
-> Source: https://learn.microsoft.com/en-us/azure/ai-services/transparency-note
+> Source: https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/transparency-note
 
 **Gap assessment:** Topic addressed but no clear stated threshold/stop-condition in matched text.
 
@@ -102,7 +102,7 @@
 > Source: https://learn.microsoft.com/en-us/azure/ai-services/content-safety/
 
 > Microsoft Responsible AI Standard v2 (2022) defines six core principles: fairness, reliability and safety, privacy and security, inclusiveness, transparency, and accountability, with detailed requirements and measurement practices for each.
-> Source: https://blogs.microsoft.com/on-the-issues/2022/06/21/microsofts-responsible-ai-standard-v2-general-requirements/
+> Source: https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Responsible-AI-Standard-General-Requirements.pdf
 
 > Microsoft's Office of Responsible AI reviews AI products through a Responsible AI Impact Assessment process; high-impact and sensitive use cases require additional review before deployment.
 > Source: https://www.microsoft.com/en-us/ai/responsible-ai

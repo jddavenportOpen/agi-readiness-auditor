@@ -40,8 +40,8 @@ def render_compare(results: list[dict[str, Any]]) -> str:
     lines.append("")
     lines.append(
         "> **Scope:** This audits each company's PUBLIC, stated posture only. "
-        "Scores measure how complete the public story is against this framework. "
-        "They don't measure internal practice or whether commitments are honored."
+        "Scores measure completeness of the public story against this framework, "
+        "not internal practice or whether commitments are honored."
     )
     lines.append("")
 
@@ -144,7 +144,7 @@ def render(result: dict[str, Any]) -> str:
         "> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, "
         "frameworks, model/system cards, public statements. It does **not** measure "
         "internal practice or whether claims are honored. A high score means the public "
-        "story is complete. It doesn't mean the company is safe."
+        "story is complete, not that the company is safe."
     )
     lines.append("")
 

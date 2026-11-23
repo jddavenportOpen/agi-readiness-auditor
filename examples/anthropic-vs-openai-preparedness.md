@@ -6,7 +6,7 @@
 **Analysis method:** LLM (claim→criterion mapping)  
 **Claims analyzed:** 7
 
-> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, frameworks, model/system cards, public statements. It does **not** measure internal practice or whether claims are honored. A high score means the public story is complete. It doesn't mean the company is safe.
+> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, frameworks, model/system cards, public statements. It does **not** measure internal practice or whether claims are honored. A high score means the public story is complete, not that the company is safe.
 
 ## Summary
 

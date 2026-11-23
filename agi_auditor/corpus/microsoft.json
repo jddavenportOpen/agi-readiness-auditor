@@ -4,7 +4,7 @@
   "claims": [
     {
       "text": "Microsoft Responsible AI Standard v2 (2022) defines six core principles: fairness, reliability and safety, privacy and security, inclusiveness, transparency, and accountability, with detailed requirements and measurement practices for each.",
-      "source": "https://blogs.microsoft.com/on-the-issues/2022/06/21/microsofts-responsible-ai-standard-v2-general-requirements/"
+      "source": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/Microsoft-Responsible-AI-Standard-General-Requirements.pdf"
     },
     {
       "text": "Microsoft's Office of Responsible AI reviews AI products through a Responsible AI Impact Assessment process; high-impact and sensitive use cases require additional review before deployment.",
@@ -20,7 +20,7 @@
     },
     {
       "text": "Microsoft publishes Transparency Notes for AI features documenting intended uses, evaluated use cases, and known limitations including reliability failure modes and performance disparities.",
-      "source": "https://learn.microsoft.com/en-us/azure/ai-services/transparency-note"
+      "source": "https://learn.microsoft.com/en-us/azure/ai-foundry/responsible-ai/openai/transparency-note"
     },
     {
       "text": "Microsoft's AI Red Team tests deployed models and published a 2024 report on red-teaming methodology for generative AI systems, including adversarial probing for jailbreaks and CBRN uplift.",

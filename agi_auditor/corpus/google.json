@@ -12,7 +12,7 @@
     },
     {
       "text": "Google DeepMind publishes the Gemini 1.5 and Gemini 1.0 technical reports and system cards documenting capability evaluations, safety red-teaming, and known failure modes including hallucination.",
-      "source": "https://storage.googleapis.com/deepmind-media/gemini/gemini_1_5_report.pdf"
+      "source": "https://arxiv.org/abs/2403.05530"
     },
     {
       "text": "Google's Secure AI Framework (SAIF) defines six core elements: expand strong security foundations, extend detection and response, automate defenses, harmonize controls, adapt existing frameworks, and contextualize AI risk.",
