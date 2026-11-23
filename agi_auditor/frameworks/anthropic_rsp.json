@@ -35,7 +35,7 @@
     {
       "id": "pause_commitment",
       "name": "Pause / Stop Commitment",
-      "bar": "Explicit public commitment to PAUSE scaling or deployment if safeguards can't keep pace with capability — a real stop condition, not aspirational.",
+      "bar": "Explicit public commitment to PAUSE scaling or deployment if safeguards can't keep pace with capability. It has to be a real stop condition, written down.",
       "source": "https://www.anthropic.com/news/anthropics-responsible-scaling-policy"
     }
   ]

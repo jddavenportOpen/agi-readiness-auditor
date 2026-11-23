@@ -1,4 +1,4 @@
-"""AGI Readiness Auditor — CLI.
+"""AGI Readiness Auditor CLI.
 
 Examples:
   python -m agi_auditor --company "OpenAI" --framework openai-5-levels
@@ -18,14 +18,14 @@ from .frameworks import list_frameworks, load_framework
 
 
 def _load_env_file() -> None:
-    """Best-effort: load KIMI_* from ~/agent-system/.env if not already set.
+    """Best-effort: load KIMI_* from a .env file in the current directory if not already set.
 
     The tool works WITHOUT this (deterministic fallback). This is a convenience
     for local runs. It never prints or logs the key.
     """
     if os.environ.get("KIMI_API_KEY"):
         return
-    path = os.path.expanduser("~/agent-system/.env")
+    path = os.path.join(os.getcwd(), ".env")
     if not os.path.exists(path):
         return
     try:
@@ -153,7 +153,7 @@ def main(argv: list[str] | None = None) -> int:
             return 2
 
     if not claims_list:
-        print("error: no claims gathered — nothing to audit.", file=sys.stderr)
+        print("error: no claims gathered, nothing to audit.", file=sys.stderr)
         return 3
 
     print(

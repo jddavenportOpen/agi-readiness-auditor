@@ -4,12 +4,6 @@ from __future__ import annotations
 import datetime as _dt
 from typing import Any
 
-_RATING_ICON = {
-    "none": "🔴",
-    "partial": "🟠",
-    "substantial": "🟡",
-    "strong": "🟢",
-}
 # how much "credit" each rating earns toward a readiness score
 _RATING_SCORE = {"none": 0.0, "partial": 0.33, "substantial": 0.66, "strong": 1.0}
 
@@ -38,7 +32,7 @@ def render_compare(results: list[dict[str, Any]]) -> str:
     today = _dt.date.today().isoformat()
 
     lines: list[str] = []
-    lines.append(f"# AGI Readiness Comparison — {fw['name']}")
+    lines.append(f"# AGI Readiness Comparison: {fw['name']}")
     lines.append("")
     lines.append(f"**Framework:** {fw['name']}  ")
     lines.append(f"**Date:** {today}  ")
@@ -46,8 +40,8 @@ def render_compare(results: list[dict[str, Any]]) -> str:
     lines.append("")
     lines.append(
         "> **Scope:** This audits each company's PUBLIC, stated posture only. "
-        "Scores measure completeness of the public story against this framework — "
-        "not internal practice or whether commitments are honored."
+        "Scores measure how complete the public story is against this framework. "
+        "They don't measure internal practice or whether commitments are honored."
     )
     lines.append("")
 
@@ -85,10 +79,9 @@ def render_compare(results: list[dict[str, Any]]) -> str:
         for company in companies:
             ass = by_company.get(company, {}).get(crit["id"])
             if ass:
-                icon = _RATING_ICON.get(ass["rating"], "")
-                cells.append(f"{icon} {ass['rating']}")
+                cells.append(ass["rating"])
             else:
-                cells.append("—")
+                cells.append("n/a")
         lines.append(f"| {crit['name']} | " + " | ".join(cells) + " |")
     lines.append("")
 
@@ -97,7 +90,7 @@ def render_compare(results: list[dict[str, Any]]) -> str:
     lines.append("## Ranking")
     lines.append("")
     for rank, (company, score) in enumerate(ranked, 1):
-        lines.append(f"{rank}. **{company}** — {score}/100")
+        lines.append(f"{rank}. **{company}**: {score}/100")
     lines.append("")
 
     # Biggest cross-company gaps
@@ -119,7 +112,7 @@ def render_compare(results: list[dict[str, Any]]) -> str:
         lines.append(f"- {s}")
     lines.append("")
     lines.append(
-        "Ratings: 🔴 none · 🟠 partial · 🟡 substantial · 🟢 strong. "
+        "Ratings, lowest to highest: none, partial, substantial, strong. "
         "Every finding cites a source URL so claims are independently checkable."
     )
     lines.append("")
@@ -135,7 +128,7 @@ def render(result: dict[str, Any]) -> str:
     today = _dt.date.today().isoformat()
 
     lines: list[str] = []
-    lines.append(f"# AGI Readiness Gap Report — {company}")
+    lines.append(f"# AGI Readiness Gap Report: {company}")
     lines.append("")
     lines.append(f"**Framework:** {fw['name']}  ")
     lines.append(f"**Date:** {today}  ")
@@ -148,10 +141,10 @@ def render(result: dict[str, Any]) -> str:
     lines.append(f"**Claims analyzed:** {result['claims_count']}")
     lines.append("")
     lines.append(
-        "> **Scope:** This audits a company's PUBLIC, stated posture — blog posts, "
+        "> **Scope:** This audits a company's PUBLIC, stated posture: blog posts, "
         "frameworks, model/system cards, public statements. It does **not** measure "
         "internal practice or whether claims are honored. A high score means the public "
-        "story is complete, not that the company is safe."
+        "story is complete. It doesn't mean the company is safe."
     )
     lines.append("")
 
@@ -162,9 +155,8 @@ def render(result: dict[str, Any]) -> str:
     lines.append("|---|---|---|---|")
     for r in result["results"]:
         c = _crit_by_id(fw, r["criterion_id"])
-        icon = _RATING_ICON.get(r["rating"], "")
         lines.append(
-            f"| {c['name']} | {icon} {r['rating']} | {r['confidence']:.0%} | {r['method']} |"
+            f"| {c['name']} | {r['rating']} | {r['confidence']:.0%} | {r['method']} |"
         )
     lines.append("")
 
@@ -173,8 +165,7 @@ def render(result: dict[str, Any]) -> str:
     lines.append("")
     for r in result["results"]:
         c = _crit_by_id(fw, r["criterion_id"])
-        icon = _RATING_ICON.get(r["rating"], "")
-        lines.append(f"### {icon} {c['name']} — **{r['rating']}**")
+        lines.append(f"### {c['name']} ({r['rating']})")
         lines.append("")
         lines.append(f"**Bar:** {c['bar']}")
         lines.append("")
@@ -184,7 +175,7 @@ def render(result: dict[str, Any]) -> str:
             lines.append("**Evidence (public claims):**")
             for ev in r["evidence"]:
                 lines.append(f"> {ev['text']}")
-                lines.append(f"> — source: {ev['source']}")
+                lines.append(f"> Source: {ev['source']}")
                 lines.append("")
         else:
             lines.append("**Evidence:** _none found in corpus._")
@@ -217,8 +208,8 @@ def render(result: dict[str, Any]) -> str:
         lines.append(f"- {s}")
     lines.append("")
     lines.append(
-        "Ratings: 🔴 none · 🟠 partial · 🟡 substantial · 🟢 strong. Each criterion is "
-        "scored on whether the company's *public claims* meet the framework's *bar* — "
+        "Ratings, lowest to highest: none, partial, substantial, strong. Each criterion is "
+        "scored on whether the company's *public claims* meet the framework's *bar*, "
         "the specific, citable threshold above. Evidence quotes link to public sources so "
         "every claim in this report is independently checkable."
     )

@@ -14,7 +14,7 @@ the `bar`. Produces a per-criterion assessment:
 
 Primary path: an LLM (Kimi via Anthropic Messages shape) does the claim->criterion
 mapping and gap reasoning. Deterministic keyword path is the fallback when no key
-is configured or the call fails — so the tool ALWAYS produces a report.
+is configured or the call fails, so the tool ALWAYS produces a report.
 """
 from __future__ import annotations
 
@@ -65,7 +65,7 @@ def _llm_assess(framework: dict, company: str, claims: list[dict], criterion: di
         "You are a rigorous AI-governance auditor. You assess a company's PUBLIC claims "
         "against a single readiness-framework criterion. You are skeptical and evidence-bound: "
         "you only credit a claim if its text actually supports the criterion's bar. You NEVER "
-        "invent quotes — you cite only by the [index] of provided claims. Output STRICT JSON only."
+        "invent quotes. You cite only by the [index] of provided claims. Output STRICT JSON only."
     )
     user = (
         f"COMPANY: {company}\n"
@@ -81,7 +81,7 @@ def _llm_assess(framework: dict, company: str, claims: list[dict], criterion: di
         "named body) is absent.\n"
         "- 'none' = no public claim addresses this criterion.\n"
         "Return JSON: {\"rating\": <scale>, \"evidence_indices\": [int,...], "
-        "\"gap\": \"one sentence: what is missing vs the bar, or 'none — bar met' \", "
+        "\"gap\": \"one sentence: what is missing vs the bar, or 'none, bar met' \", "
         "\"confidence\": 0.0-1.0}\n"
         "evidence_indices must reference only claims that genuinely support the rating. "
         "If rating is 'none', evidence_indices = []."

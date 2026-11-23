@@ -1,8 +1,8 @@
 """Claim corpus loading.
 
 Two input paths:
-  1. Bundled offline corpus  (agi_auditor/corpus/<company>.json) — default, deterministic.
-  2. Live fetch of public URLs (--url ...) — pulls text and extracts candidate claim
+  1. Bundled offline corpus  (agi_auditor/corpus/<company>.json). Default, deterministic.
+  2. Live fetch of public URLs (--url ...). Pulls text and extracts candidate claim
      sentences. Best-effort; requires `requests` + `beautifulsoup4`.
 
 Each claim is a dict: {"text": str, "source": str}.

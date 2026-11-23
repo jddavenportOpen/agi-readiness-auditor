@@ -10,32 +10,32 @@
   "criteria": [
     {
       "id": "L1_chatbots",
-      "name": "Level 1 — Chatbots",
+      "name": "Level 1: Chatbots",
       "bar": "AI with conversational language ability. Bar: ships a deployed conversational system AND documents its known limitations / failure modes publicly (e.g. a system card or usage policy).",
       "source": "https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai"
     },
     {
       "id": "L2_reasoners",
-      "name": "Level 2 — Reasoners",
+      "name": "Level 2: Reasoners",
       "bar": "Human-level problem solving across domains without tools. Bar: publicly claims reasoning-class models AND publishes evaluations of reasoning reliability, hallucination, or where the reasoning breaks.",
       "source": "https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai"
     },
     {
       "id": "L3_agents",
-      "name": "Level 3 — Agents",
-      "bar": "Systems that can take actions over extended time on a user's behalf. Bar: publicly addresses agentic risk — autonomy controls, action-space limits, oversight / human-in-the-loop, or a stated policy on autonomous action.",
+      "name": "Level 3: Agents",
+      "bar": "Systems that can take actions over extended time on a user's behalf. Bar: publicly addresses agentic risk: autonomy controls, action-space limits, oversight / human-in-the-loop, or a stated policy on autonomous action.",
       "source": "https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai"
     },
     {
       "id": "L4_innovators",
-      "name": "Level 4 — Innovators",
+      "name": "Level 4: Innovators",
       "bar": "AI that can aid in invention / generate novel science. Bar: has a public position on AI-driven R&D acceleration risk, including dual-use scientific knowledge (e.g. bio/chem uplift).",
       "source": "https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai"
     },
     {
       "id": "L5_organizations",
-      "name": "Level 5 — Organizations",
-      "bar": "AI that can do the work of an entire organization. Bar: has a public governance position on highly autonomous / economically transformative systems — control, alignment guarantees, or a stated stop/pause condition.",
+      "name": "Level 5: Organizations",
+      "bar": "AI that can do the work of an entire organization. Bar: has a public governance position on highly autonomous / economically transformative systems: control, alignment guarantees, or a stated stop/pause condition.",
       "source": "https://www.bloomberg.com/news/articles/2024-07-11/openai-sets-levels-to-track-progress-toward-superintelligent-ai"
     }
   ]

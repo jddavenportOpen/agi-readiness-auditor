@@ -3,7 +3,7 @@
   "note": "Bundled public-claim corpus covering Microsoft AI safety and responsible AI. Each item is a paraphrase or short quote of a PUBLIC statement with its source URL. Verify against sources before citing externally.",
   "claims": [
     {
-      "text": "Microsoft Responsible AI Standard v2 (2022) defines six core principles — fairness, reliability and safety, privacy and security, inclusiveness, transparency, and accountability — with detailed requirements and measurement practices for each.",
+      "text": "Microsoft Responsible AI Standard v2 (2022) defines six core principles: fairness, reliability and safety, privacy and security, inclusiveness, transparency, and accountability, with detailed requirements and measurement practices for each.",
       "source": "https://blogs.microsoft.com/on-the-issues/2022/06/21/microsofts-responsible-ai-standard-v2-general-requirements/"
     },
     {
